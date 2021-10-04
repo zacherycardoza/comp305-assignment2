@@ -7,6 +7,10 @@ public class PlayerBehaviour : MonoBehaviour
     public float horizontalForce;
     public float verticalForce;
     public bool isGrounded;
+    public Transform GroundOrigin;
+    public float GroundRadius;
+    public LayerMask GroundLayerMask;
+    //public ContactFilter2D GroundContactFilter;
     
     private Animator animatorController;
     private Rigidbody2D rigidBody2D;
@@ -29,6 +33,7 @@ public class PlayerBehaviour : MonoBehaviour
         float x = 0.0f;
         float y = 0.0f;
 
+        SetIsGrounded();
         if (isGrounded)
         {
             x = Input.GetAxisRaw("Horizontal");
@@ -75,6 +80,23 @@ public class PlayerBehaviour : MonoBehaviour
         return x;
     }
 
+    public void SetIsGrounded()
+    {
+        //isGrounded = Physics2D.Linecast(transform.position, GroundOrigin.position, GroundLayerMask);
+
+        RaycastHit2D hit = Physics2D.CircleCast(GroundOrigin.position, GroundRadius, Vector2.down, GroundRadius, GroundLayerMask);
+
+        isGrounded = (hit) ? true : false;
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.magenta;
+        //Gizmos.DrawLine(transform.position, GroundOrigin.position);
+        Gizmos.DrawWireSphere(GroundOrigin.position, GroundRadius);
+    }
+
+    /*
     void OnCollisionEnter2D(Collision2D other)
     {
         if (other.gameObject.CompareTag("Platform"))
@@ -90,5 +112,6 @@ public class PlayerBehaviour : MonoBehaviour
             isGrounded = false;
         }
     }
+    */
 
 }
