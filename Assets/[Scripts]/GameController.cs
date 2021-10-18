@@ -10,7 +10,11 @@ public class GameController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        player.position = spawnPoint.position;
+        if (player)
+        {
+            player.position = spawnPoint.position;
+        }
+        
     }
 
     // Update is called once per frame
