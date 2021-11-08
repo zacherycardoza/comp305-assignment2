@@ -4,13 +4,20 @@ using UnityEngine;
 
 public class PlayerBehaviour : MonoBehaviour
 {
+    public PlayerState playerState;
+    
+    [Header("Movement")]
     public float horizontalForce;
     public float verticalForce;
     public bool isGrounded;
+    public bool isJumping;
     public Transform GroundOrigin;
     public float GroundRadius;
     public LayerMask GroundLayerMask;
-    //public ContactFilter2D GroundContactFilter;
+
+    [Header("Sound FX")] 
+    public AudioSource jumpSound;
+    
     
     private Animator animatorController;
     private Rigidbody2D rigidBody2D;
@@ -20,6 +27,7 @@ public class PlayerBehaviour : MonoBehaviour
     {
         rigidBody2D = GetComponent<Rigidbody2D>();
         animatorController = GetComponent<Animator>();
+        jumpSound = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -46,11 +54,25 @@ public class PlayerBehaviour : MonoBehaviour
 
                 // shift to run animation
                 animatorController.SetInteger("AnimationState", 1); // run
+
+                playerState = transform.localScale.x > 0 ? PlayerState.RUN_RIGHT : PlayerState.RUN_LEFT;
             }
             else
             {
                 // shift back to idle
                 animatorController.SetInteger("AnimationState", 0); // idle
+                playerState = PlayerState.IDLE;
+            }
+
+            if ((y > 0) && (!isJumping))
+            {
+                jumpSound.Play();
+                isJumping = true;
+                
+            }
+            else
+            {
+                isJumping = false;
             }
         }
         else
@@ -65,6 +87,8 @@ public class PlayerBehaviour : MonoBehaviour
             rigidBody2D.velocity = new Vector2(rigidBody2D.velocity.x * 0.90f, rigidBody2D.velocity.y);
 
             animatorController.SetInteger("AnimationState", 2); // jump
+            playerState = PlayerState.JUMPING;
+
         }
 
         Vector2 movementVector = new Vector2(x * horizontalForce, y * verticalForce);
@@ -82,8 +106,6 @@ public class PlayerBehaviour : MonoBehaviour
 
     public void SetIsGrounded()
     {
-        //isGrounded = Physics2D.Linecast(transform.position, GroundOrigin.position, GroundLayerMask);
-
         RaycastHit2D hit = Physics2D.CircleCast(GroundOrigin.position, GroundRadius, Vector2.down, GroundRadius, GroundLayerMask);
 
         isGrounded = (hit) ? true : false;
@@ -92,7 +114,6 @@ public class PlayerBehaviour : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.magenta;
-        //Gizmos.DrawLine(transform.position, GroundOrigin.position);
         Gizmos.DrawWireSphere(GroundOrigin.position, GroundRadius);
     }
 
