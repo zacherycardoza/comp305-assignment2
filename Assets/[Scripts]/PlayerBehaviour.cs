@@ -111,18 +111,18 @@ public class PlayerBehaviour : MonoBehaviour
         isGrounded = (hit) ? true : false;
     }
 
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.magenta;
-        Gizmos.DrawWireSphere(GroundOrigin.position, GroundRadius);
-    }
+    //private void OnDrawGizmos()
+    //{
+    //    Gizmos.color = Color.magenta;
+    //    Gizmos.DrawWireSphere(GroundOrigin.position, GroundRadius);
+    //}
 
-    /*
+
     void OnCollisionEnter2D(Collision2D other)
     {
         if (other.gameObject.CompareTag("Platform"))
         {
-            isGrounded = true;
+            transform.SetParent(other.transform);
         }
     }
 
@@ -130,9 +130,9 @@ public class PlayerBehaviour : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Platform"))
         {
-            isGrounded = false;
+            transform.SetParent(null);
         }
     }
-    */
+
 
 }
