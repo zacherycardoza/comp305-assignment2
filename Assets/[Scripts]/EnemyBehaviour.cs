@@ -3,8 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(Animator))]
 public class EnemyBehaviour : MonoBehaviour
 {
+    [Header("Player Detection")] 
+    public Transform LOSPoint;
+    public LayerMask playerLayerMask;
+
     [Header("Movement")]
     public float runForce;
     public Transform groundAheadPoint;
@@ -14,11 +19,13 @@ public class EnemyBehaviour : MonoBehaviour
     public bool isGroundAhead;
 
     private Rigidbody2D rigidbody2D;
+    private Animator animator;
 
     // Start is called before the first frame update
     void Start()
     {
         rigidbody2D = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -26,7 +33,18 @@ public class EnemyBehaviour : MonoBehaviour
     {
         CheckIfGroundAhead();
         CheckIfWallInFront();
-        MoveEnemy();
+
+        if (!HasLOS()) // patrol
+        {
+            animator.enabled = true;
+            animator.Play("Run");
+            MoveEnemy();
+        }
+        else
+        {
+            animator.enabled = false;
+        }
+        
     }
 
     private void CheckIfGroundAhead()
@@ -62,6 +80,12 @@ public class EnemyBehaviour : MonoBehaviour
         transform.localScale = new Vector3(transform.localScale.x * -1.0f, transform.localScale.y, transform.localScale.z);
     }
 
+    private bool HasLOS()
+    {
+        var hit = Physics2D.Linecast(transform.position, LOSPoint.position, playerLayerMask);
+        return (hit);
+    }
+
     // UTILITY Functions
     private void OnDrawGizmos()
     {
@@ -69,5 +93,7 @@ public class EnemyBehaviour : MonoBehaviour
         Gizmos.DrawLine(transform.position, groundAheadPoint.position);
         Gizmos.color = Color.yellow;
         Gizmos.DrawLine(transform.position, lookAheadPoint.position);
+        Gizmos.color = Color.blue;
+        Gizmos.DrawLine(transform.position, LOSPoint.position);
     }
 }

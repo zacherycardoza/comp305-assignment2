@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 7043427062891808075}
   - component: {fileID: 7043427062891808074}
   - component: {fileID: 7043427062891808072}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -253,14 +253,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6be67726cebaa2e49a3eeda08083c5eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerState: 0
   horizontalForce: 40
   verticalForce: 400
   isGrounded: 0
+  isJumping: 0
   GroundOrigin: {fileID: 7043427063209087604}
   GroundRadius: 0.4
   GroundLayerMask:
     serializedVersion: 2
     m_Bits: 64
+  jumpSound: {fileID: 0}
 --- !u!1 &7043427063209087607
 GameObject:
   m_ObjectHideFlags: 0
