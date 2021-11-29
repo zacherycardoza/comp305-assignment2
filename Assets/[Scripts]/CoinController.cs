@@ -19,7 +19,10 @@ public class CoinController : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        coinSound.Play();
-        transform.position = Vector3.down * 50.0f;
+        if (other.gameObject.CompareTag("Player"))
+        {
+            coinSound.Play();
+            transform.position = Vector3.down * 50.0f;
+        }
     }
 }
