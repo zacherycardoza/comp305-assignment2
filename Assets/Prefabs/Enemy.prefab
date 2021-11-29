@@ -230,9 +230,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   LOSPoint: {fileID: 2008557004657151322}
-  playerLayerMask:
-    serializedVersion: 2
-    m_Bits: 512
+  LOSContactFilter:
+    useTriggers: 0
+    useLayerMask: 1
+    useDepth: 0
+    useOutsideDepth: 0
+    useNormalAngle: 0
+    useOutsideNormalAngle: 0
+    layerMask:
+      serializedVersion: 2
+      m_Bits: 768
+    minDepth: 0
+    maxDepth: 0
+    minNormalAngle: 0
+    maxNormalAngle: 0
   runForce: 15
   groundAheadPoint: {fileID: 586915328}
   lookAheadPoint: {fileID: 1796183523}

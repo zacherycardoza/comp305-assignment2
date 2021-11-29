@@ -8,7 +8,8 @@ public class EnemyBehaviour : MonoBehaviour
 {
     [Header("Player Detection")] 
     public Transform LOSPoint;
-    public LayerMask playerLayerMask;
+    public ContactFilter2D LOSContactFilter;
+    public List<RaycastHit2D> contactList;
 
     [Header("Movement")]
     public float runForce;
@@ -82,8 +83,10 @@ public class EnemyBehaviour : MonoBehaviour
 
     private bool HasLOS()
     {
-        var hit = Physics2D.Linecast(transform.position, LOSPoint.position, playerLayerMask);
-        return (hit);
+        contactList = new List<RaycastHit2D>(); // makes empty ContactList
+        var hit = Physics2D.Linecast(transform.position, LOSPoint.position, LOSContactFilter, contactList);
+
+        return ((hit > 0) && (contactList[0].collider.gameObject.CompareTag("Player")));
     }
 
     // UTILITY Functions
