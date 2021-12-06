@@ -41,7 +41,7 @@ public class EnemyBehaviour : MonoBehaviour
             animator.Play("Run");
             MoveEnemy();
         }
-        else
+        else // Stop Patrolling
         {
             animator.enabled = false;
         }
