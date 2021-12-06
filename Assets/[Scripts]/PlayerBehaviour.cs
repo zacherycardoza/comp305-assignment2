@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerBehaviour : MonoBehaviour
 {
     public PlayerState playerState;
-    
+
     [Header("Movement")]
     public float horizontalForce;
     public float verticalForce;
@@ -14,11 +14,12 @@ public class PlayerBehaviour : MonoBehaviour
     public Transform GroundOrigin;
     public float GroundRadius;
     public LayerMask GroundLayerMask;
+    public float yVelocityTopBound;
 
-    [Header("Sound FX")] 
+    [Header("Sound FX")]
     public AudioSource jumpSound;
-    
-    
+
+
     private Animator animatorController;
     private Rigidbody2D rigidBody2D;
 
@@ -68,7 +69,7 @@ public class PlayerBehaviour : MonoBehaviour
             {
                 jumpSound.Play();
                 isJumping = true;
-                
+
             }
             else
             {
@@ -93,6 +94,7 @@ public class PlayerBehaviour : MonoBehaviour
 
         Vector2 movementVector = new Vector2(x * horizontalForce, y * verticalForce);
         rigidBody2D.AddForce(movementVector);
+        rigidBody2D.velocity = new Vector2(rigidBody2D.velocity.x, Mathf.Clamp(rigidBody2D.velocity.y, -40f, yVelocityTopBound));
     }
 
     private float FlipAnimation(float x)
