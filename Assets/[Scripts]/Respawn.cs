@@ -12,5 +12,9 @@ public class Respawn : MonoBehaviour
         {
             other.gameObject.transform.position = spawnPoint.position;
         }
+        else
+        {
+            other.gameObject.SetActive(false);
+        }
     }
 }
