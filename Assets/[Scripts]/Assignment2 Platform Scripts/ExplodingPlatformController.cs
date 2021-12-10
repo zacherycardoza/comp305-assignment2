@@ -46,7 +46,7 @@ public class ExplodingPlatformController : MonoBehaviour
             if (rb != null && hit.gameObject.name == "Player") rb.AddForce(new Vector2(explosionForce * (hit.transform.position.x + transform.position.x), explosionForce * (hit.transform.position.y + transform.position.y)));
         }
         GameObject clone = Instantiate(explosionObject, transform.position, transform.rotation);
-        clone.active = true;
+        clone.SetActive(true);
         Destroy(this.gameObject);
     }
 }
