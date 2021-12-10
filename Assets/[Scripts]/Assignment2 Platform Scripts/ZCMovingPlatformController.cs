@@ -45,7 +45,7 @@ public class ZCMovingPlatformController : MonoBehaviour
             if (movingRight && rb.position.x >= endPos.x) movingRight = false;
             else if (!movingRight && rb.position.x <= startPos.x) movingRight = true;
         }
-        if (!startRight)
+        else
         {
             if (movingRight && rb.position.x >= startPos.x) movingRight = false;
             else if (!movingRight && rb.position.x <= endPos.x) movingRight = true;
